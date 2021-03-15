@@ -10,9 +10,9 @@ mario_env.close_env()
 
 
 loadedData = mario_env.load_env(os.path.join(
-    mario_env.SAVE_DESTINALTION, "MarioEnv6.npy"
+    mario_env.SAVE_DESTINALTION, "MarioEnv7.npy"
 ))
-print(len(loadedData))
+print(loadedData.keys())
 
 
 
