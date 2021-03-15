@@ -45,6 +45,13 @@ class SimpleMario():
         respData['info'] = respTuple[3]
         return respData
     
+    # TODO: make it happen
+    def get_miv_env(self):
+        envConfig = self.get_env_state()
+        envState = envConfig['state']
+        envState = [np.argmax(pixel) for pixel in envState]
+        return envState
+    
     def make_move(self, move):
         """Returns Null is invalid input
         valid input: self.get_action_set()

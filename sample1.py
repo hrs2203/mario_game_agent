@@ -4,9 +4,23 @@ import numpy as np
 
 mario_env = SimpleMario()
 
-mario_env.play_game(1000)
+# mario_env.play_game(1000)
 
 # mario_env.save_env()
+
+# TODO: Make it a small valid input format
+# the box kind
+envConfig = mario_env.get_env_state()['state']
+blockVal = np.argmax(envConfig, axis=2)
+print(blockVal.shape)
+
+
+# for i in envConfig['state']:
+#     print(i, end="-\n")
+
+# envData = mario_env.get_miv_env()
+
+# print("\n".join( [ "-".join(map(str,envData[i:i+16])) for i in range(0,240,16) ] ))
 
 mario_env.close_env()
 
