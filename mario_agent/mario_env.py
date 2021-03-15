@@ -36,7 +36,7 @@ class SimpleMario():
     def get_env_state(self):
         respTuple = self.env.step(0)
         respData = dict()
-        respData['state'] = respTuple[0]
+        # respData['state'] = respTuple[0]
         respData['reward'] = respTuple[1]
         respData['isdead'] = respTuple[2]
         respData['info'] = respTuple[3]
@@ -78,9 +78,18 @@ class SimpleMario():
             self.SAVE_DESTINALTION, self.generate_random_file_name()
         )
 
+        fileContent = self.get_env_state()
+
         with open( fileDestination , 'w') as savedModel:
-            np.save(fileDestination, self.get_env_state())
+            np.save(
+                fileDestination,
+                state = fileContent['state'],
+                reward = fileContent['reward'],
+                isdead = fileContent['isdead'],
+                info = fileContent['info']
+            )
     
+    # TODO: Needs more work, not functining
     def load_env(self, fileLocation: str = ""):
         if (fileLocation == ""):
             raise Exception("File Location Not Provided")
@@ -89,8 +98,8 @@ class SimpleMario():
         
         fileContent = None
 
-        with open(fileLocation, 'r') as fileObj:
-            fileContent = np.load(fileObj)
+        with open(fileLocation, 'rb') as fileObj:
+            fileContent = np.load(fileObj, allow_pickle=True)
             
         return fileContent
 

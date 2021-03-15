@@ -1,4 +1,4 @@
-from mario_agent.mario_env import SimpleMario
+from mario_agent import SimpleMario
 import os
 import numpy as np
 
@@ -9,13 +9,11 @@ mario_env.save_env()
 mario_env.close_env()
 
 
-
 loadedData = mario_env.load_env(os.path.join(
-    mario_env.SAVE_DESTINALTION, "MarioEnv3.npy"
+    mario_env.SAVE_DESTINALTION, "MarioEnv6.npy"
 ))
+print(len(loadedData))
 
-
-print(loadedData)
 
 
 
