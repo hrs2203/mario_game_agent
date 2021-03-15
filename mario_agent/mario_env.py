@@ -28,6 +28,9 @@ class SimpleMario():
             5: "jump",
             6: "backward"
         })
+    
+    def close_env(self):
+        self.env.close()
 
     def fresh_start(self):
         """Reset Every time we need to do a fresh start"""
@@ -58,7 +61,27 @@ class SimpleMario():
         """
         if move in self.valid_move_indx:
             return self.env.step(move)
-        return None
+        return [None, None, True, None]
+    
+    def play_game(self, moveCount: int = 0):
+        self.fresh_start()
+        self.env.render()
+        for cou in range(moveCount):
+            move_indx = int(input("Enter your move: "))
+            for _ in range(30):
+                state, reward, done, info = self.make_move(move_indx)
+                self.env.render()
+
+            if done:
+                self.fresh_start()
+                restart = int(input("Do you want to restart: "))
+                if (restart == -1):
+                    pass
+                elif (restart == 0):
+                    break
+                                
+
+
     
     def generate_random_file_name(self):
         if not os.path.isdir(self.SAVE_DESTINALTION):
@@ -86,7 +109,6 @@ class SimpleMario():
                 np.array(list(fileContent.items()), dtype=object)
             )
     
-    # TODO: Needs more work, not functining
     def load_env(self, fileLocation: str = ""):
         if (fileLocation == ""):
             raise Exception("File Location Not Provided")
@@ -102,10 +124,4 @@ class SimpleMario():
             fileContent[item[0]] = item[1]
             
         return fileContent
-
-
-
-        
-    def close_env(self):
-        self.env.close()
     

@@ -4,15 +4,17 @@ import numpy as np
 
 mario_env = SimpleMario()
 
+mario_env.play_game(1000)
+
 # mario_env.save_env()
 
 mario_env.close_env()
 
 
-loadedData = mario_env.load_env(os.path.join(
-    mario_env.SAVE_DESTINALTION, "MarioEnv1.npy"
-))
-print(loadedData)
+# loadedData = mario_env.load_env(os.path.join(
+#     mario_env.SAVE_DESTINALTION, "MarioEnv1.npy"
+# ))
+# print(loadedData)
 
 
 
