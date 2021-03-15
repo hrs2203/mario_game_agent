@@ -6,7 +6,6 @@ import numpy as np
 
 class SimpleMario():
     def __init__(self):
-
         self.BASE_DIR = os.getcwd()
         self.SAVE_DESTINALTION = os.path.join(self.BASE_DIR, "saved_model")
         
@@ -17,7 +16,14 @@ class SimpleMario():
         
         self.fresh_start()
 
-    def get_action_set(self):
+    def get_action_set(self) -> dict:
+        """Dict of all possible actions
+        - key[int]: input for the action
+        - value: action
+
+        Returns:
+            dict: dict of all action
+        """
         # ['NOOP', 'right', 'right A', 'right B', 'right A B', 'A', 'left']
         return dict({
             0: "stay",
@@ -30,13 +36,33 @@ class SimpleMario():
         })
     
     def close_env(self):
+        """
+        Cleans inmemory data for the enviroment
+        - CLEAN AFTER YOU ARE DONE
+        """
         self.env.close()
 
     def fresh_start(self):
-        """Reset Every time we need to do a fresh start"""
+        """
+        Reset Every time you need to do a fresh start
+        - like when you die
+        - want to restart from begining
+        """
         self.env.reset()
     
-    def get_env_state(self):
+    def get_env_state(self) -> dict:
+        """Get Environment Details
+        
+        {
+            'state': env.state,
+            'reward': env.reward,
+            'isdead': env.isdead,
+            'info': env.info,
+        }
+
+        Returns:
+            dict: environment Details
+        """
         respTuple = self.env.step(0)
         respData = dict()
         respData['state'] = respTuple[0]
@@ -47,6 +73,7 @@ class SimpleMario():
     
     # TODO: make it happen
     def get_miv_env(self):
+        """ Still in progress """
         envConfig = self.get_env_state()
         envState = envConfig['state']
         envState = [np.argmax(pixel) for pixel in envState]
@@ -71,6 +98,24 @@ class SimpleMario():
         return [None, None, True, None]
     
     def play_game(self, moveCount: int = 0):
+        """Play game using interface
+
+        - After playing make sure to restart
+        
+        Key input [int] :
+            Enter your move: range(0,7)
+            Do you want to restart: {
+                -1: Do Nothing
+                 0: ShutDown preview
+                else: Reset and Restart
+            }
+
+
+        Args:
+            moveCount (int, optional): 
+                key for action to take from self.get_action_set. 
+                Defaults to 0.
+        """
         self.fresh_start()
         self.env.render()
         for cou in range(moveCount):
@@ -98,6 +143,7 @@ class SimpleMario():
 
     
     def save_env(self, destination: str = ""):
+        """ Dont Really need it """
         if destination == "":
             if not os.path.isdir(self.SAVE_DESTINALTION):
                 os.makedirs(self.SAVE_DESTINALTION)
@@ -117,6 +163,7 @@ class SimpleMario():
             )
     
     def load_env(self, fileLocation: str = ""):
+        """ Dont really need it """
         if (fileLocation == ""):
             raise Exception("File Location Not Provided")
         elif not os.path.isfile(fileLocation):
